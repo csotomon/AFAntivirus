@@ -1,3 +1,4 @@
+import { FileUploadModule } from 'primeng/primeng';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -13,7 +14,8 @@ import { MdToolbarModule, MdCardModule } from '@angular/material';
     BrowserModule,
     BrowserAnimationsModule,
     MdToolbarModule,
-    MdCardModule
+    MdCardModule,
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

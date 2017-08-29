@@ -1,5 +1,8 @@
+// import { Automata } from './../shared/automata';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import * as vis from "vis";
+import * as vis from 'vis';
+import { FileUploadModule } from 'primeng/primeng';
+
 
 @Component({
   selector: 'app-root',
@@ -7,7 +10,12 @@ import * as vis from "vis";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
-  title = 'app';
+  // Lista de archivos selecionados
+  archivosSubidos: any[] = [];
+  //automata: Automata;
+  datosProcesados = '';
+  constructor() {
+  }
 
   /**
    * Funcion de que corre despues de la inicialización del DOM HTML
@@ -34,10 +42,10 @@ export class AppComponent implements AfterViewInit {
       { from: 0, to: 0, arrows: 'to', label: 'Otro' },
       { from: 0, to: 1, arrows: 'to', label: '15' },
       { from: 0, to: 5, arrows: 'to', label: '72' },
-      { from: 0, to: 8, arrows: 'to', label: '29'},
+      { from: 0, to: 8, arrows: 'to', label: '29' },
       { from: 1, to: 0, arrows: 'to', label: 'Otro' },
-      { from: 1, to: 2, arrows: 'to', label: '30'},
-      { from: 2, to: 3, arrows: 'to', label: '15'},
+      { from: 1, to: 2, arrows: 'to', label: '30' },
+      { from: 2, to: 3, arrows: 'to', label: '15' },
       { from: 3, to: 2, arrows: 'to', label: '30' },
       { from: 3, to: 4, arrows: 'to', label: '49' },
       { from: 5, to: 6, arrows: 'to', label: '72' },
@@ -67,5 +75,41 @@ export class AppComponent implements AfterViewInit {
       }
     };
     let network = new vis.Network(container, data, options);
+  }
+
+  onArchivoClear(event) {
+
+  }
+  /**
+   * Procesa la selección del archivo
+   * @param event Evento
+   */
+  onArchivoSelect(event) {
+    this.archivosSubidos = [];
+    this.archivosSubidos.push(event.files[0]);
+  }
+  /**
+   * Procesa el archivo subido
+   * @param event Evento
+   */
+  archivoUploadHandler(event) {
+    let contenido;
+    let fr = new FileReader();
+    // listener que procesa la lectura del archivo
+    fr.onloadend = (e) => {
+      contenido = fr.result;
+      // Convierte el archivo archivo leido en un array de bytes
+      //this.automata = new Automata();
+      //this.automata.archivo = new Uint8Array(contenido);
+      /*
+      this.resultadoArchivo.forEach(element => {
+        console.log(element);
+      });
+      */
+      //this.automata.inicio();
+    };
+    // Lectura del archivo subido
+    fr.readAsArrayBuffer(event.files[0]);
+
   }
 }

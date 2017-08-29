@@ -11,4 +11,28 @@
     </md-card-content>
   </md-card>
 </div>
-<div class="contenido">test2</div>
+<div class="contenido">
+    <p-fileUpload
+    name="archivo"
+    (onClear)="onArchivoClear($event)"
+    (onSelect)="onArchivoSelect($event)"
+    (multiple)="false"
+    customUpload="true"
+    (uploadHandler)="archivoUploadHandler($event)"
+    chooseLabel="Escoger"
+    uploadLabel="Subir"
+    cancelLabel="Cancelar">
+      <ng-template pTemplate type="content">
+          <ul *ngIf="archivosSubidos.length">
+              <li *ngFor="let file of archivosSubidos">{{file.name}} - {{file.size}} bytes</li>
+          </ul>
+      </ng-template>
+    </p-fileUpload>
+</div>
+<div class="contenido">
+  <md-card>
+    <md-card-content>
+        {{datosProcesados}}
+    </md-card-content>
+  </md-card>
+</div>
