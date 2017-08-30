@@ -37,7 +37,7 @@ export class AppComponent implements AfterViewInit {
       { id: 10, label: 'q10' }
     ]);
 
-    // create an array with edges
+    // array para dibujar los enlaces entre los nodos
     let edges = new vis.DataSet([
       { from: 0, to: 0, arrows: 'to', label: 'Otro' },
       { from: 0, to: 1, arrows: 'to', label: '15' },
@@ -56,7 +56,7 @@ export class AppComponent implements AfterViewInit {
       { from: 10, to: 4, arrows: 'to', label: '29' }
     ]);
 
-    // create a network
+    // Crea la red para dibujar
     let data = {
       nodes: nodes,
       edges: edges
@@ -75,7 +75,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   onArchivoClear(event) {
-
+    this.archivosSubidos = [];
   }
   /**
    * Procesa la selección del archivo
@@ -97,11 +97,7 @@ export class AppComponent implements AfterViewInit {
       contenido = fr.result;
       // Convierte el archivo archivo leido en un array de bytes
       this.AutomataComponent.contenidoArchivo = new Uint8Array(contenido);
-      /*
-      this.resultadoArchivo.forEach(element => {
-        console.log(element);
-      });
-      */
+      // Inicia el automata
       this.AutomataComponent.iniciar();
     };
     // Lectura del archivo subido

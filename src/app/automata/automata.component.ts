@@ -2,9 +2,7 @@ import { SafeHtmlPipePipe } from './../../shared/safe-html-pipe.pipe';
 import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/components/common/message';
-import { GrowlModule } from 'primeng/primeng';
-
-
+import { MessagesModule } from 'primeng/primeng';
 
 @Component({
   selector: 'app-automata',
@@ -24,16 +22,33 @@ export class AutomataComponent implements OnInit {
   virus = '';
   // Muestra mensajes en pantalla
   msgs: Message[] = [];
+  // variable para mostrar en patalla los estados que se procesaron
+  logEstados: string[] = [];
+
+  mostrarLogEstado = true;
+  mostrarLogArchivo = true;
+  procesandoArchivo = false;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  iniciar() {
+  limpiar() {
+    this.procesado = '';
+    this.logEstados = [];
     this.contador = 0;
-    // Mientras  no se lea todo el archivo o se haya encontrado un virus
-    while (this.contador < this.contenidoArchivo.length && !this.encontrado) {
+    this.msgs = [];
+    this.mostrarLogEstado = true;
+    this.mostrarLogArchivo = true;
+    this.encontrado = false;
+  }
+
+  iniciar() {
+    this.limpiar();
+    this.procesandoArchivo = true;
+    // Mientras  no se lea todo el archivo
+    while (this.contador < this.contenidoArchivo.length) {
       this.q0();
     }
     // Si no encontro nada, muestra un mensaje en pantalla
@@ -41,12 +56,13 @@ export class AutomataComponent implements OnInit {
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: 'Success Message', detail: 'No se encontro virus' });
     }
+    this.procesandoArchivo = false;
   }
 
   private q0() {
-    this.encontrado = false;
     let valor = this.contenidoArchivo[this.contador];
     this.contador++;
+    this.logEstados.push('q0');
     if (valor === 15) {
       this.log(valor, true);
       this.q1();
@@ -62,10 +78,10 @@ export class AutomataComponent implements OnInit {
   }
 
   private q1() {
+    this.logEstados.push('q1');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
-    this.encontrado = false;
     let valor = this.contenidoArchivo[this.contador];
     this.contador++;
     if (valor === 30) {
@@ -77,10 +93,10 @@ export class AutomataComponent implements OnInit {
   }
 
   private q2() {
+    this.logEstados.push('q2');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
-    this.encontrado = false;
     let valor = this.contenidoArchivo[this.contador];
     this.contador++;
     if (valor === 15) {
@@ -111,16 +127,17 @@ export class AutomataComponent implements OnInit {
   }
 
   private q4() {
+    this.logEstados.push('q4');
     this.encontrado = true;
     this.msgs = [];
     this.msgs.push({ severity: 'error', summary: 'Virus', detail: 'Se encontró el virus: ' + this.virus });
   }
 
   private q5() {
+    this.logEstados.push('q5');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
-    this.encontrado = false;
     let valor = this.contenidoArchivo[this.contador];
     this.contador++;
     if (valor === 15) {
@@ -134,10 +151,10 @@ export class AutomataComponent implements OnInit {
   }
 
   private q7() {
+    this.logEstados.push('q7');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
-    this.encontrado = false;
     let valor = this.contenidoArchivo[this.contador];
     this.contador++;
     if (valor === 32) {
@@ -210,5 +227,4 @@ export class AutomataComponent implements OnInit {
       this.procesado += ' ' + valor;
     }
   }
-
 }

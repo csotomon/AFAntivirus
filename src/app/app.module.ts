@@ -1,10 +1,10 @@
-import { FileUploadModule, GrowlModule } from 'primeng/primeng';
+import { FileUploadModule, MessagesModule } from 'primeng/primeng';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MdToolbarModule, MdCardModule } from '@angular/material';
+import { MdToolbarModule, MdCardModule, MdListModule, MdButtonModule, MdProgressBarModule } from '@angular/material';
 import { AutomataComponent } from './automata/automata.component';
 import { SafeHtmlPipePipe } from './../shared/safe-html-pipe.pipe';
 
@@ -20,8 +20,11 @@ import { SafeHtmlPipePipe } from './../shared/safe-html-pipe.pipe';
     BrowserAnimationsModule,
     MdToolbarModule,
     MdCardModule,
+    MdListModule,
+    MdButtonModule,
+    MdProgressBarModule,
     FileUploadModule,
-    GrowlModule
+    MessagesModule
 
   ],
   providers: [],
