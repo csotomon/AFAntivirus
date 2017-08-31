@@ -76,6 +76,7 @@ export class AppComponent implements AfterViewInit {
 
   onArchivoClear(event) {
     this.archivosSubidos = [];
+    this.AutomataComponent.limpiar();
   }
   /**
    * Procesa la selección del archivo

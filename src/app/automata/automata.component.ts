@@ -36,6 +36,7 @@ export class AutomataComponent implements OnInit {
 
   limpiar() {
     this.procesado = '';
+    this.virus = '';
     this.logEstados = [];
     this.contador = 0;
     this.msgs = [];
@@ -47,16 +48,25 @@ export class AutomataComponent implements OnInit {
   iniciar() {
     this.limpiar();
     this.procesandoArchivo = true;
-    // Mientras  no se lea todo el archivo
-    while (this.contador < this.contenidoArchivo.length) {
-      this.q0();
-    }
-    // Si no encontro nada, muestra un mensaje en pantalla
-    if (!this.encontrado) {
-      this.msgs = [];
-      this.msgs.push({ severity: 'success', summary: 'Success Message', detail: 'No se encontro virus' });
-    }
-    this.procesandoArchivo = false;
+    let promesa = new Promise((resolve, reject) => {
+      // Mientras  no se lea todo el archivo
+      while (this.contador < this.contenidoArchivo.length) {
+        this.q0();
+      }
+      // Si no encontro nada, muestra un mensaje en pantalla
+      if (!this.encontrado) {
+        this.msgs = [];
+        this.msgs.push({ severity: 'success', summary: 'Success Message', detail: 'No se encontro virus' });
+      }
+      resolve();
+    });
+
+    promesa.then(() => {
+      this.procesandoArchivo = false;
+    }).catch(error => {
+      this.msgs.push({ severity: 'Warn', summary: 'Error', detail: error });
+    });
+
   }
 
   private q0() {
@@ -89,6 +99,7 @@ export class AutomataComponent implements OnInit {
       this.q2();
     } else {
       this.log(valor, false);
+      this.contador --;
     }
   }
 
@@ -104,10 +115,12 @@ export class AutomataComponent implements OnInit {
       this.q3();
     } else {
       this.log(valor, false);
+      this.contador --;
     }
   }
 
   private q3() {
+    this.logEstados.push('q3');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
@@ -123,6 +136,7 @@ export class AutomataComponent implements OnInit {
       this.q2();
     } else {
       this.log(valor, false);
+      this.contador --;
     }
   }
 
@@ -166,6 +180,7 @@ export class AutomataComponent implements OnInit {
   }
 
   private q8() {
+    this.logEstados.push('q8');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
@@ -181,6 +196,7 @@ export class AutomataComponent implements OnInit {
   }
 
   private q9() {
+    this.logEstados.push('q9');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
@@ -190,7 +206,7 @@ export class AutomataComponent implements OnInit {
     if (valor === 30) {
       this.log(valor, true);
       this.q2();
-    }else if (valor === 29) {
+    } else if (valor === 29) {
       this.log(valor, true);
       this.virus = 'Amtrax';
       this.q4();
@@ -200,6 +216,7 @@ export class AutomataComponent implements OnInit {
   }
 
   private q10() {
+    this.logEstados.push('q10');
     if (this.contador >= this.contenidoArchivo.length || this.encontrado) {
       return;
     }
@@ -221,6 +238,7 @@ export class AutomataComponent implements OnInit {
    * @param resaltar true para resaltar en rojo
    */
   private log(valor: any, resaltar: boolean) {
+    console.log('byte:' + this.contador + ' valor:' + valor);
     if (resaltar) {
       this.procesado += '<span style="color: red"> ' + valor + '</span>';
     } else {
