@@ -26,4 +26,5 @@ npm install -g @angular/cli
 * correr `ng serve` para crear un servidor web de desarrollo. En el browser abrir <http://localhost:4200/>.
 
 ## Aplicación Compilada
-En el carpeta build encontrará la aplicación compilada, lista para para copiarla en cualquier servidor web.
+* Correr `ng build --prod`para compilar la aplicación en la carpeta `dist`, cuyo contenido podrá copiarse a cualquier servidor web.
+* Igualmente se puede revisar al aplicación en <https://csotomon.github.io/AFAntivirus/> .
